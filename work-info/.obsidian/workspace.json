@@ -11,12 +11,8 @@
             "id": "9a7e5089a1f352a6",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "excess.md",
-                "mode": "preview",
-                "source": false
-              }
+              "type": "graph",
+              "state": {}
             }
           }
         ]
@@ -85,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "excess.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "excess.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "excess.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -148,19 +140,19 @@
   },
   "active": "9a7e5089a1f352a6",
   "lastOpenFiles": [
-    "q-extent.md",
-    "q-th packing radius.md",
     "diameter of a graph.md",
-    "homeomorphism.md",
     "Haantjes curvature.md",
-    "pictures/Pasted image 20230709202527.png",
+    "excess.md",
+    "q-th packing radius.md",
+    "q-extent.md",
+    "homeomorphism.md",
     "distance.md",
+    "pictures/Pasted image 20230709202527.png",
     "pictures/Pasted image 20230709195447.png",
     "pictures/Pasted image 20230709194901.png",
     "pictures",
     "pictures/Pasted image 20230709195149.png",
     "Untitled.canvas",
-    "excess.md",
     "2023-07-09.md",
     "Untitled 1.canvas"
   ]

@@ -1,3 +1,8 @@
+---
+tags: 
+	- invariant
+	- 
+---
 given a triangle $T=\Delta(pxq)$ in a metric space $(X,d)$,
 $$exc(T) = d(p,x)+d(x,q)- d(p,q)$$
 where $d(\cdot, \cdot )$ is the [[distance]].

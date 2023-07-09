@@ -1,3 +1,8 @@
+---
+tags: 
+	- definition
+	- 
+---
 A [function](https://en.wikipedia.org/wiki/Function_(mathematics) "Function (mathematics)")  between two [topological spaces](https://en.wikipedia.org/wiki/Topological_space "Topological space") is a **homeomorphism** if it has the following properties:
 
 - f is a [bijection](https://en.wikipedia.org/wiki/Bijection "Bijection") ([one-to-one](https://en.wikipedia.org/wiki/Injective_function "Injective function") and [onto](https://en.wikipedia.org/wiki/Onto "Onto")),

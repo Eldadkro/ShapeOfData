@@ -1,3 +1,8 @@
+---
+tags: 
+	- invariant
+	- 
+---
 is closely related to the [[excess]] such that:
 Let $(M,d)$ be a metric space and let $c:I=[0,1] \rightarrow c(I)\subset M$
 be a [[homeomorphism]].

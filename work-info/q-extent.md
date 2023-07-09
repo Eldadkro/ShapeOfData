@@ -1,3 +1,8 @@
+---
+tags: 
+	- invariant
+	- 
+---
 is the maximum [[distance]] of the q-tuple 
 $$ xt_qX = \frac{1}{C(n,2)} max_{(x_1,...,x_q)\in X^q} \sum d(x_i,x_j)$$
 where q=2 : is the [[diameter of a graph]]
