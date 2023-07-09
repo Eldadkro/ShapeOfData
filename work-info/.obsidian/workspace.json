@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "ea810b97c3be892d",
+        "id": "fa9f2462e9b1ca30",
         "type": "tabs",
         "children": [
           {
-            "id": "8687a1ba5aa8b2ae",
+            "id": "9a7e5089a1f352a6",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "q-th packing radius.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -85,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "q-th packing radius.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "q-th packing radius.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "q-th packing radius.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -146,10 +138,11 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "8687a1ba5aa8b2ae",
+  "active": "9a7e5089a1f352a6",
   "lastOpenFiles": [
-    "distance.md",
     "q-th packing radius.md",
+    "pictures/Pasted image 20230709202527.png",
+    "distance.md",
     "Haantjes curvature.md",
     "pictures/Pasted image 20230709195447.png",
     "homeomorphism.md",
