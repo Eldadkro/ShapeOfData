@@ -1,7 +1,7 @@
 ---
 tags: 
 	- definition
-	- 
+	- def
 ---
 A [function](https://en.wikipedia.org/wiki/Function_(mathematics) "Function (mathematics)")  between two [topological spaces](https://en.wikipedia.org/wiki/Topological_space "Topological space") is a **homeomorphism** if it has the following properties:
 
