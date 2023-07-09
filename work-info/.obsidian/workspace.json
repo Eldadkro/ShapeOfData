@@ -4,22 +4,43 @@
     "type": "split",
     "children": [
       {
-        "id": "fa9f2462e9b1ca30",
+        "id": "8a2e2c10ca265bc8",
         "type": "tabs",
         "children": [
           {
-            "id": "9a7e5089a1f352a6",
+            "id": "ed7cceb9a2a35ae5",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "homeomorphism.md",
+                "file": "excess.md",
                 "mode": "source",
                 "source": false
               }
             }
+          },
+          {
+            "id": "6755a0770548ee9f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Haantjes curvature.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "aee6b170a783f932",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -85,7 +106,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "homeomorphism.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +122,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "homeomorphism.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +143,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "homeomorphism.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -146,22 +163,23 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "076316201df76b40",
+  "active": "aee6b170a783f932",
   "lastOpenFiles": [
-    "diameter of a graph.md",
+    "q-th packing radius.md",
     "Haantjes curvature.md",
     "excess.md",
-    "q-th packing radius.md",
-    "q-extent.md",
-    "homeomorphism.md",
     "distance.md",
+    "Untitled 1.canvas",
+    "Untitled.canvas",
+    "2023-07-10.md",
+    "homeomorphism.md",
+    "diameter of a graph.md",
+    "q-extent.md",
     "pictures/Pasted image 20230709202527.png",
     "pictures/Pasted image 20230709195447.png",
     "pictures/Pasted image 20230709194901.png",
     "pictures",
     "pictures/Pasted image 20230709195149.png",
-    "Untitled.canvas",
-    "2023-07-09.md",
-    "Untitled 1.canvas"
+    "2023-07-09.md"
   ]
 }
