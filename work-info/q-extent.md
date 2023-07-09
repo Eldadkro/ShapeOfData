@@ -6,3 +6,9 @@ and the following inequality holds
 
 $$ xt_2X \ge xt_3X \ge ... \ge xtX$$
 where $xtX = lim_q xt_qX$
+
+
+## Calculation
+
+1) for a given $q$ calculate the sum of the weights of all the paths
+2) use itertools to to quary all the tuples of length q
