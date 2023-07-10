@@ -1,6 +1,7 @@
 """Module providing tools to read and write graphs"""
 import networkx as nx
 
+
 def read_graph_from_edgelist(path:str) -> nx.Graph:
     """reads a graph from .edge file"""
     f = open(path, "r", encoding="utf_8")
