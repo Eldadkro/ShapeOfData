@@ -1,6 +1,6 @@
 """Module for calculating the invarients of the paper"""
 import math
-from itertools import permutations
+from itertools import permutations,combinations
 import networkx as nx
 
 
@@ -44,9 +44,20 @@ def excess_local(G:nx.Graph, p, x, q):
     return edges[2] + edges[1] - edges[0]
 
 
-def excess_global(G:nx.Graph, p, x, q):
+def excess_local_with_dists(distances,p,x,q):
+    if x not in distances[p] or x not in distances[q] or p not in x not in distances[p]:
+        return 0
+    edges: list[float] = sorted([distances[p][x], distances[x][q], distances[q][p]])
+    return edges[2] + edges[1] - edges[0]
+
+def excess_global(G:nx.Graph):
     """calculate the global excess of a graph"""
-    pass
+    max_excess = 0
+    distances = dict(nx.all_pairs_dijkstra_path_length(G))
+    for triangle in combinations(G.nodes(),3):
+        max_excess = max(max_excess, excess_local_with_dists(distances,*triangle))
+    return max_excess
+
 
 def Haantjes_curvature(G:nx.Graph,p,q,r):
     """calcualte the haantjes curvature"""

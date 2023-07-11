@@ -4,11 +4,23 @@
     "type": "split",
     "children": [
       {
-        "id": "8a2e2c10ca265bc8",
+        "id": "a2a1dda54a86f056",
         "type": "tabs",
         "children": [
           {
-            "id": "ed7cceb9a2a35ae5",
+            "id": "b417199235409e06",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "q-extent.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "3353ab68cac4977f",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -20,7 +32,7 @@
             }
           },
           {
-            "id": "6755a0770548ee9f",
+            "id": "6b2627cd5d9bf360",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -32,15 +44,19 @@
             }
           },
           {
-            "id": "aee6b170a783f932",
+            "id": "e84a353d46432f0b",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "q-th packing radius.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -106,6 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "q-th packing radius.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -122,6 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "q-th packing radius.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -143,7 +161,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "q-th packing radius.md"
+              }
             }
           }
         ]
@@ -163,18 +183,18 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "aee6b170a783f932",
+  "active": "e84a353d46432f0b",
   "lastOpenFiles": [
-    "q-th packing radius.md",
     "Haantjes curvature.md",
     "excess.md",
+    "q-extent.md",
+    "q-th packing radius.md",
     "distance.md",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "2023-07-10.md",
     "homeomorphism.md",
     "diameter of a graph.md",
-    "q-extent.md",
     "pictures/Pasted image 20230709202527.png",
     "pictures/Pasted image 20230709195447.png",
     "pictures/Pasted image 20230709194901.png",
