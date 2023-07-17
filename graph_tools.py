@@ -13,7 +13,8 @@ def read_graph_from_edgelist(path:str) -> nx.Graph:
         edge.sort()
         nodes.add(edge[0])
         nodes.add(edge[1])
-        weight = float(split[2])
+        #TODO
+        weight = float(1)
         edges[tuple(edge)] = weight
 
     G = nx.Graph()

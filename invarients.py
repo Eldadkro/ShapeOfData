@@ -20,7 +20,7 @@ def q_tuple_length(tup: tuple, distances: dict):
 def q_extent_single(q: int, G: nx.Graph):
     """
     Given a weighted graph with attribute weights
-    calcualte the q_extent with a single process
+    calculate the q_extent with a single process
     """
     edges: int = choose(G.number_of_nodes(), 2)
     lens = dict(nx.all_pairs_dijkstra_path_length(G))
@@ -38,16 +38,16 @@ def excess_local(G:nx.Graph, p, x, q):
     calculate the excess of a tirangle of three nodes
     """
     distances = dict(nx.all_pairs_dijkstra_path_length(G))
-    if x not in distances[p] or x not in distances[q] or p not in x not in distances[p]:
+    if x not in distances[p] or q not in distances[x] or q not in distances[p]:
         return 0
-    edges: list[float] = sorted([distances[p][x], distances[x][q], distances[q][p]])
+    edges: list[float] = sorted([distances[p][x], distances[x][q], distances[p][q]])
     return edges[2] + edges[1] - edges[0]
 
 
 def excess_local_with_dists(distances,p,x,q):
-    if x not in distances[p] or x not in distances[q] or p not in x not in distances[p]:
+    if x not in distances[p] or q not in distances[x] or q not in distances[p]:
         return 0
-    edges: list[float] = sorted([distances[p][x], distances[x][q], distances[q][p]])
+    edges: list[float] = sorted([distances[p][x], distances[x][q], distances[p][q]])
     return edges[2] + edges[1] - edges[0]
 
 def excess_global(G:nx.Graph):

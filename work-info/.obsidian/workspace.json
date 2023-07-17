@@ -106,7 +106,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "3b11cdaea0f60612",
@@ -185,16 +186,16 @@
   },
   "active": "e84a353d46432f0b",
   "lastOpenFiles": [
-    "Haantjes curvature.md",
-    "excess.md",
     "q-extent.md",
     "q-th packing radius.md",
+    "Haantjes curvature.md",
+    "excess.md",
+    "diameter of a graph.md",
     "distance.md",
     "Untitled 1.canvas",
     "Untitled.canvas",
     "2023-07-10.md",
     "homeomorphism.md",
-    "diameter of a graph.md",
     "pictures/Pasted image 20230709202527.png",
     "pictures/Pasted image 20230709195447.png",
     "pictures/Pasted image 20230709194901.png",
