@@ -34,6 +34,13 @@ class TestInvarientsComplete:
 
     def test_excess_local(self):
         assert inva.excess_local(self.G,'3','5','9') == 1
+    
+    def test_max_path_length(self):
+        tup = ('3','5','9')
+        assert inva.max_path_length(tup,self.distances) == 1
+
+    def test_q_packing(self):
+        pass
 
 
 class TestInvarientsLine:
@@ -53,7 +60,12 @@ class TestInvarientsLine:
     def test_excess_local(self):
         assert inva.excess_local(self.G,'4','2','0') == 4
 
-
+    def test_max_path_length(self):
+        tup = ('0','3','4')
+        assert inva.max_path_length(tup,self.distances) == 4
+    
+    def test_q_packing(self):
+        pass
 
 # #%%
 # import networkx as nx

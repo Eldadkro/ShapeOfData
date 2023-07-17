@@ -63,6 +63,21 @@ def Haantjes_curvature(G:nx.Graph,p,q,r):
     """calcualte the haantjes curvature"""
     pass
 
-def q_packing(G,q):
+def max_path_length(node_subset:tuple,distances:dict):
+    """calculate the radius of a subset of nodes given a distance matrix"""
+    max_dist = 0
+    for i in range(1,len(node_subset)):
+        for j in range(0,i):
+            max_dist = max(max_dist,distances[node_subset[i]][node_subset[j]])
+    return max_dist
+
+
+def q_packing(G:nx.Graph,q):
     """calcualte the q-packing radius of a graph"""
-    pass
+    distances = dict(nx.all_pairs_dijkstra_path_length(G))
+    min_radius = 0
+    for tup in combinations(G.nodes(),q):
+        min_radius = min(min_radius,max_path_length(tup,distances))
+    return min_radius
+
+
