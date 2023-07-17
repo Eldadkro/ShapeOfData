@@ -61,7 +61,7 @@ def q_extent_multi(q: int, G: nx.Graph):
 
             max_tup_length = max(max_tup_length, max_chunck)
             chunk += 1
-    return max_tup_length
+    return (1/edges) *max_tup_length
 
 
 def excess_local(G: nx.Graph, p, x, q):
