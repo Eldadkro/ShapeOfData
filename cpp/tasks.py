@@ -9,8 +9,33 @@ def concut(values:list[str], sep:str = " "):
 @task
 def build(c, docs=False):
     command  = "g++"
-    complie_flags = "-fPIC -shared -fdiagnostics-color=always"
+    complie_flags = " -fPIC -shared -fdiagnostics-color=always"
     output = "-o libinvarientscpp.so"
     input_file = "invarientscpp.cpp"
     print("compiling", input_file)
     c.run(concut([command,complie_flags,output,input_file]))
+
+
+@task
+def test(c):
+    command  = "g++"
+    complie_flags = "-c -fdiagnostics-color=always"
+    output = "-o libinvarientscpp.o"
+    input_file = "invarientscpp.cpp"
+    print("compiling", input_file)
+    c.run(concut([command,complie_flags,output,input_file]))
+
+    command  = "g++"
+    complie_flags = " -c -g -fdiagnostics-color=always"
+    output = "-o main.o"
+    input_file = "main.cpp"
+    print("compiling", input_file)
+    c.run(concut([command,complie_flags,output,input_file]))
+    command  = "g++"
+    complie_flags = " -g -fdiagnostics-color=always -pthread"
+    output = "-o main"
+    input_file = "main.o libinvarientscpp.o"
+    print("linking: ", input_file)
+    c.run(concut([command,complie_flags,output,input_file]))
+
+

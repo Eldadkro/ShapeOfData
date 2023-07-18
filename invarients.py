@@ -1,6 +1,7 @@
 """Module for calculating the invarients of the paper"""
 import math
-from itertools import permutations, combinations
+from itertools import permutations, combinations,product
+import itertools as itl
 import networkx as nx
 import multiprocessing as mp
 import os
@@ -29,7 +30,8 @@ def q_extent_single(q: int, G: nx.Graph):
     """
     edges: int = choose(G.number_of_nodes(), 2)
     lens = dict(nx.all_pairs_dijkstra_path_length(G))
-    q_tuples = permutations(G.nodes, q)
+    # q_tuples = permutations(G.nodes, q)
+    q_tuples = product(G.nodes, repeat=q)
     max_q_tuple = 0
     for tup in q_tuples:
         length = q_tuple_length(tup, lens)

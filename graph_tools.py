@@ -28,7 +28,7 @@ def convert_dist_dict_to_narray(dists_dict:dict, nodes:list) -> np.array:
     nodes_indecies = dict()
     for i,node in enumerate(nodes):
         nodes_indecies[node] = i
-    dists_matrix = np.zeros((len(nodes),len(nodes)))
+    dists_matrix = np.zeros((len(nodes),len(nodes)),dtype='double')
     for source,targets in dists_dict.items():
         for target,weight in targets.items():
             dists_matrix[nodes_indecies[source]][nodes_indecies[target]] = weight
