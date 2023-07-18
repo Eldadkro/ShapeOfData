@@ -4,3 +4,6 @@ test_cache
 .vscode
 .pytest_cache
 cpp/*.so
+cpp/exe
+cpp/main
+cpp/main.o
