@@ -9,7 +9,7 @@ def concut(values:list[str], sep:str = " "):
 @task
 def build(c, docs=False):
     command  = "g++"
-    complie_flags = "-fPIC -shared"
+    complie_flags = "-fPIC -shared -fdiagnostics-color=always"
     output = "-o libinvarientscpp.so"
     input_file = "invarientscpp.cpp"
     print("compiling", input_file)

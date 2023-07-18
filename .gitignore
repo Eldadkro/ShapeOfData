@@ -3,3 +3,4 @@ __pycache__
 test_cache
 .vscode
 .pytest_cache
+cpp/*.so
