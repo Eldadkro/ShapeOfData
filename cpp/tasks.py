@@ -8,9 +8,9 @@ def concut(values:list[str], sep:str = " "):
 
 @task
 def build(c, docs=False):
-    command  = "gcc"
+    command  = "g++"
     complie_flags = "-fPIC -shared"
-    output = "-o libtest.so"
-    input_file = "clibarary.c"
+    output = "-o libinvarientscpp.so"
+    input_file = "invarientscpp.cpp"
     print("compiling", input_file)
     c.run(concut([command,complie_flags,output,input_file]))
