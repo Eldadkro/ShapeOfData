@@ -23,13 +23,13 @@ def read_graph_from_edgelist(path:str) -> nx.Graph:
     return G
 
 
-def convert_dist_dict_to_narray(dists_dict:dict, nodes:list[str]) -> np.array:
+def convert_dist_dict_to_narray(dists_dict:dict, nodes:list) -> np.array:
     """takes a set of nodes and dists dictionary and return a dense matrix of distances"""
     nodes_indecies = dict()
     for i,node in enumerate(nodes):
         nodes_indecies[node] = i
     dists_matrix = np.zeros((len(nodes),len(nodes)))
-    for source,targets in dict.items():
+    for source,targets in dists_dict.items():
         for target,weight in targets.items():
             dists_matrix[nodes_indecies[source]][nodes_indecies[target]] = weight
     return dists_matrix

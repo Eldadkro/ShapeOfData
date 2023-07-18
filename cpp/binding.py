@@ -3,11 +3,12 @@ import ctypes
 import pathlib
 import numpy as np
 from numpy.ctypeslib import ndpointer
+import os
 
 
 def q_extend_single(dists: np.array, q: int):
     n = len(dists)
-    p = pathlib.Path().absolute() / "libinvarientscpp.so"
+    p = os.path.dirname(__file__)+  "/libinvarientscpp.so"
     c_lib = ctypes.CDLL(p)
     c_q_extend_single = c_lib.q_extend_single
     c_q_extend_single.argtypes = [
@@ -19,7 +20,7 @@ def q_extend_single(dists: np.array, q: int):
     c_q_extend_single(dists, n, q)
 
 def direc():
-    return pathlib.Path.cwd()
+    pass
 
 if __name__ == "__main__":
     # Load the shared library into ctypes
