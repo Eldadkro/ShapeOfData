@@ -123,43 +123,45 @@ bool Permutations::hascopies() {
     return false;
 }
 
-Combinations::Combinations(size_t _n, size_t _q, vector<size_t> start, size_t _limit = 0)
-    : n{_n}, q{_q}, comb{start}, limit{_limit}, index{0}, curr{_q - 1} {}
+Combinations::Combinations(size_t _n, size_t _q) : n{_n}, q{_q}, limit{0}, que(q) {
+    for (size_t i = 0; i < q; i++) {
+        que.push_back(n - (q - i));
+    }
+}
+
+Combinations::Combinations(size_t _n, size_t _q, vector<size_t> start, size_t _limit=0)
+    : n{_n}, q{_q}, limit{_limit}, que(start) {}
 
 const vector<size_t> &Combinations::next() {
-    
-    // we exusted all the options of the current element 
-    if (comb[curr] == n - (q - curr)) {
-        curr--;
-        comb[curr]++;
-        for (size_t i = curr + 1; i < q; i++) {
-            comb[i] = comb[i - 1] + 1;
-        }
-        curr = q-1;
+    // it is a version of DFS where we move lexicographiclly
+    //  in a case where we reached the end of a branch we backtrack
+    //  we return que as it is the combination
+    //  but it is also the que for the DFS run
+    if (que.back() == n - 1) {
+        // backtrack
+        size_t i;
+        for (i = q - 1; i > 0 && que[i] == n - (q - i); i--)
+            que.pop_back();
+        que[i]++;
+        for (size_t j = i + 1; j < q; j++)
+            que.push_back(que[i] + 1);
+    } else {
+        // no need to backtrack
+        que[q - 1]++;
     }
-    // we are at the end and simply need to increase our option
-    else if (curr == q - 1 && comb[curr] < n - 1) {
-        ++comb[curr];
+    if (limit != 0) {
+        index++;
     }
-    
-    // if we are simply at the middle and simply need to increase our option
-    else if (comb[curr] < n - (q - curr)) {
-        ++comb[curr];
-        size_t i = curr + 1;
-        for (size_t i = curr + 1; i < q; i++) {
-            comb[i] = comb[i - 1] + 1;
-        }
-        curr = q-1;
-    }
-
-    return comb;
+    return que;
 }
 
 bool Combinations::end() {
+    // in case that we reached the limit or q is digenerate
+    // other wise we simply check if we reached the last comination in lexicograph manner
     if (q == 0 || limit != 0 && limit == index)
         return true;
     for (int i = 0; i < q; ++i)
-        if (comb[i] != n - q + i)
+        if (que[i] != n - q + i)
             return false;
     return true;
 }

@@ -78,11 +78,11 @@ class Combinations {
   private:
     size_t n;
     size_t q;
-    vector<size_t> comb;
     size_t limit,index;
-    size_t curr;
+    vector<size_t> que;
 
   public:
+    Combinations(size_t _n, size_t _q);
     Combinations(size_t _n, size_t _q, vector<size_t> start,size_t _limit);
     const vector<size_t> &next();
     bool end();
