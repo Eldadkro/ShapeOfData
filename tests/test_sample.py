@@ -13,8 +13,8 @@ import networkx as nx
 
 
 #my code
-import invarients as inva
-import graph_tools as glt
+import libarary.invarients as inva
+import libarary.graph_tools as glt
 
 class TestInvarientsComplete:
 
