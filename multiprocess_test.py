@@ -1,8 +1,8 @@
 # %%
 import pandas as pd
 import multiprocessing as mp
-import invarients as inva
-import graph_tools as gtl
+import libarary.invarients as inva
+import libarary.graph_tools as gtl
 import os
 from time import time
 
