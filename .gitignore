@@ -7,3 +7,4 @@ cpp/*.so
 cpp/exe
 cpp/main
 cpp/main.o
+cpp/*.o

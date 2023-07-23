@@ -18,13 +18,15 @@ def build(c, docs=False):
 
 @task
 def test(c):
+    c.run("export LD_LIBRARY_PATH=\"$PWD:$LD_LIBRARY_PATH\"")
+    build(c)
     command  = "g++"
-    complie_flags = "-c -fdiagnostics-color=always"
+    complie_flags = "-c -g -fdiagnostics-color=always"
     output = "-o libinvarientscpp.o"
     input_file = "invarientscpp.cpp"
     print("compiling", input_file)
     c.run(concut([command,complie_flags,output,input_file]))
-
+    
     command  = "g++"
     complie_flags = " -c -g -fdiagnostics-color=always"
     output = "-o main.o"
@@ -32,9 +34,9 @@ def test(c):
     print("compiling", input_file)
     c.run(concut([command,complie_flags,output,input_file]))
     command  = "g++"
-    complie_flags = " -g -fdiagnostics-color=always -pthread"
+    complie_flags = " -fdiagnostics-color=always -pthread  -L. -linvarientscpp"
     output = "-o main"
-    input_file = "main.o libinvarientscpp.o"
+    input_file = "main.o"
     print("linking: ", input_file)
     c.run(concut([command,complie_flags,output,input_file]))
 
