@@ -44,7 +44,7 @@ bool end(tup &t, size_t q) {
 void next_tup(tup &t, size_t n) {
 
     size_t i = 0;
-    while ((t[i] = (t[i] + 1) % n) == 0 && i<n)
+    while ((t[i] = (t[i] + 1) % n) == 0 && i < n)
         i++;
 }
 
@@ -67,7 +67,7 @@ double Single_invarients::q_extend(Nparray dists, size_t n, size_t q) {
     }
     // cout << q_tup.size() << endl;
     // print_tup(q_tup);
-    
+
     double max_length = 0;
     double length = 0;
     while (!end(q_tup, q)) {
@@ -88,3 +88,78 @@ void print_tup(tup &t) {
     cout << endl;
 }
 void test2() { cout << "hello world \n"; }
+
+Permutations::Permutations(size_t _n, size_t _q, vector<size_t> start, size_t _limit = 0)
+    : n{_n}, q{_q}, tup{start}, limit{_limit}, index{0} {}
+
+const vector<size_t> &Permutations::next() {
+    size_t i = 0;
+    while (hascopies())
+        while ((tup[i] = (tup[i] + 1) % n) == 0 && i < n)
+            i++;
+    ++index;
+    return tup;
+}
+
+bool Permutations::end() {
+    if (q == 0 || limit != 0 && limit == index)
+        return true;
+    for (auto val : tup)
+        if (val < n - 1)
+            return false;
+    return true;
+}
+
+bool Permutations::hascopies() {
+    if (tup.size() == 0) {
+        return false;
+    }
+    for (size_t i = 1; i < tup.size(); ++i) {
+        for (size_t j = 0; j < i; ++j) {
+            if (tup[i] == tup[j])
+                return true;
+        }
+    }
+    return false;
+}
+
+Combinations::Combinations(size_t _n, size_t _q, vector<size_t> start, size_t _limit = 0)
+    : n{_n}, q{_q}, comb{start}, limit{_limit}, index{0}, curr{_q - 1} {}
+
+const vector<size_t> &Combinations::next() {
+    
+    // we exusted all the options of the current element 
+    if (comb[curr] == n - (q - curr)) {
+        curr--;
+        comb[curr]++;
+        for (size_t i = curr + 1; i < q; i++) {
+            comb[i] = comb[i - 1] + 1;
+        }
+        curr = q-1;
+    }
+    // we are at the end and simply need to increase our option
+    else if (curr == q - 1 && comb[curr] < n - 1) {
+        ++comb[curr];
+    }
+    
+    // if we are simply at the middle and simply need to increase our option
+    else if (comb[curr] < n - (q - curr)) {
+        ++comb[curr];
+        size_t i = curr + 1;
+        for (size_t i = curr + 1; i < q; i++) {
+            comb[i] = comb[i - 1] + 1;
+        }
+        curr = q-1;
+    }
+
+    return comb;
+}
+
+bool Combinations::end() {
+    if (q == 0 || limit != 0 && limit == index)
+        return true;
+    for (int i = 0; i < q; ++i)
+        if (comb[i] != n - q + i)
+            return false;
+    return true;
+}

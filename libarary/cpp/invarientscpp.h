@@ -1,7 +1,6 @@
 #include <math.h>
 // #include <python3.11/Python.h>
 
-
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -30,7 +29,7 @@ extern "C" {
 class Single_invarients {
 
   public:
-    Single_invarients(){}
+    Single_invarients() {}
     double q_extend(Nparray dists, size_t n, size_t q);
     // TODO
     // double excess_global(Nparray);
@@ -46,9 +45,9 @@ class Multi_invarients {
     Multi_invarients(size_t);
     Multi_invarients();
     double q_extend(Nparray dists, size_t n, size_t q);
-//     // TODO
-//     //  double excess_global(Nparray);
-//     //  double q_packing(Nparray);
+    //     // TODO
+    //     //  double excess_global(Nparray);
+    //     //  double q_packing(Nparray);
 };
 
 double q_path_length(Nparray dists, size_t n, tup &t);
@@ -58,3 +57,33 @@ bool end(tup &t, size_t n);
 void test2();
 
 void print_tup(tup &t);
+
+class Permutations {
+
+  private:
+    size_t n;
+    size_t q;
+    size_t limit,index;
+    vector<size_t> tup;
+
+    bool hascopies();
+
+  public:
+    Permutations(size_t _n, size_t _q, vector<size_t> start, size_t _limit);
+    const vector<size_t> &next();
+    bool end();
+};
+
+class Combinations {
+  private:
+    size_t n;
+    size_t q;
+    vector<size_t> comb;
+    size_t limit,index;
+    size_t curr;
+
+  public:
+    Combinations(size_t _n, size_t _q, vector<size_t> start,size_t _limit);
+    const vector<size_t> &next();
+    bool end();
+};

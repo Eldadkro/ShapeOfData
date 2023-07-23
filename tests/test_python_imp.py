@@ -40,7 +40,7 @@ class TestInvarientsComplete:
         assert inva.max_path_length(tup,self.distances) == 1
 
     def test_q_packing(self):
-        pass
+        assert inva.q_packing(self.G,3) == 1
 
 
 class TestInvarientsLine:
@@ -65,7 +65,7 @@ class TestInvarientsLine:
         assert inva.max_path_length(tup,self.distances) == 4
     
     def test_q_packing(self):
-        pass
+        assert inva.q_packing(self.G,3) == 2
 
 # #%%
 # import networkx as nx

@@ -110,7 +110,8 @@ def max_path_length(node_subset: tuple, distances: dict):
 def q_packing(G: nx.Graph, q):
     """calcualte the q-packing radius of a graph"""
     distances = dict(nx.all_pairs_dijkstra_path_length(G))
-    min_radius = 0
+    min_radius = G.number_of_nodes()
     for tup in combinations(G.nodes(), q):
         min_radius = min(min_radius, max_path_length(tup, distances))
+        
     return min_radius
