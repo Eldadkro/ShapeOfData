@@ -1,6 +1,7 @@
 #include <math.h>
 // #include <python3.11/Python.h>
 
+#include <algorithm>
 #include <iostream>
 #include <thread>
 #include <vector>
@@ -13,8 +14,8 @@ typedef vector<size_t> tup;
 extern "C" {
     // interface for the python reader for single thread calculations
     double q_extend_single(Nparray, size_t, size_t);
-    // double excess_global_single(Nparray);
-    // double q_packing_single(Nparray);
+    double excess_global_single(Nparray dists, size_t n);
+    double q_packing_single(Nparray dists, size_t n, size_t q);
 
     // interface for the python reader for multi thread calculations
     double q_extend_multi(Nparray, size_t, size_t);
@@ -31,9 +32,9 @@ class Single_invarients {
   public:
     Single_invarients() {}
     double q_extend(Nparray dists, size_t n, size_t q);
-    // TODO
-    // double excess_global(Nparray);
-    // double q_packing(Nparray);
+    // TODO tests
+    double excess_global(Nparray dists, size_t n);
+    double q_packing(Nparray dists, size_t n, size_t q);
 };
 
 class Multi_invarients {
@@ -46,11 +47,13 @@ class Multi_invarients {
     Multi_invarients();
     double q_extend(Nparray dists, size_t n, size_t q);
     //     // TODO
-    //     //  double excess_global(Nparray);
+    double excess_global(Nparray);
     //     //  double q_packing(Nparray);
 };
 
 double q_path_length(Nparray dists, size_t n, tup &t);
+double excess(Nparray dists, tup &t, size_t n);
+double max_radius(Nparray dists, tup &t, size_t n);
 void next_tup(tup &t, size_t n);
 bool end(tup &t, size_t n);
 
@@ -63,11 +66,10 @@ class Permutations {
   private:
     size_t n;
     size_t q;
-    size_t limit,index;
+    size_t limit, index;
     vector<size_t> tup;
 
     bool hascopies();
-    bool exhausted();
 
   public:
     Permutations(size_t _n, size_t _q, vector<size_t> start, size_t _limit);
@@ -79,12 +81,12 @@ class Combinations {
   private:
     size_t n;
     size_t q;
-    size_t limit,index;
+    size_t limit, index;
     vector<size_t> que;
 
   public:
     Combinations(size_t _n, size_t _q);
-    Combinations(size_t _n, size_t _q, vector<size_t> start,size_t _limit);
+    Combinations(size_t _n, size_t _q, vector<size_t> start, size_t _limit);
     const vector<size_t> &next();
     bool end();
 };

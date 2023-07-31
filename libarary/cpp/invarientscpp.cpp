@@ -13,6 +13,14 @@ extern "C" {
         return Multi_invarients().q_extend(dists, n, q);
     }
 
+    double excess_global_single(Nparray dists, size_t n) {
+        return Single_invarients().excess_global(dists, n);
+    }
+
+    double q_packing_single(Nparray dists, size_t n, size_t q) {
+        return Single_invarients().q_packing(dists, n, q)/2;
+    }
+
     void test() { cout << "hello world\n"; }
 
     void print_dists(Nparray dists, size_t n) {
@@ -63,21 +71,80 @@ double Single_invarients::q_extend(Nparray dists, size_t n, size_t q) {
     // cout<<"in"<<endl;
     tup q_tup(static_cast<size_t>(q));
     for (size_t i = 0; i < q; ++i) {
-        q_tup[i] = 0;
+        q_tup[i] = i;
     }
+    Permutations perms(n, q, q_tup, 0);
     // cout << q_tup.size() << endl;
     // print_tup(q_tup);
 
     double max_length = 0;
     double length = 0;
-    while (!end(q_tup, q)) {
+    while (!perms.end()) {
         // print_tup(q_tup);
         length = q_path_length(dists, n, q_tup);
         max_length = length > max_length ? length : max_length;
-        next_tup(q_tup, n);
+        q_tup = perms.next();
     }
     return max_length;
     return 0;
+}
+
+double Single_invarients::excess_global(Nparray dists, size_t n) {
+    if (n < 3)
+        return 0;
+    vector<size_t> comb({0, 1, 2});
+    Combinations combs(n, 3, comb, 0);
+    double max_excess = 0;
+    double curr_excess;
+    while (!combs.end()) {
+        curr_excess = excess(dists, comb, n);
+        max_excess = max_excess > curr_excess ? max_excess : curr_excess;
+        comb = combs.next();
+    }
+    return max_excess;
+}
+
+double excess(Nparray dists, tup &t, size_t n) {
+    vector<double> tri_edges(3);
+    tri_edges[0] = dists[t[0] * n + t[1]];
+    tri_edges[1] = dists[t[1] * n + t[2]];
+    tri_edges[2] = dists[t[0] * n + t[2]];
+    if (tri_edges[0] == 0 || tri_edges[1] == 0 || tri_edges[2] == 0)
+        return 0;
+    sort(tri_edges.begin(), tri_edges.end());
+    return tri_edges[2] + tri_edges[1] - tri_edges[0];
+}
+
+double Single_invarients::q_packing(Nparray dists, size_t n, size_t q) {
+    if (n < q)
+        q = n;
+    if (q == 0)
+        return 0;
+    tup q_tup(static_cast<size_t>(q));
+    for (size_t i = 0; i < q; ++i) {
+        q_tup[i] = i;
+    }
+    Permutations perms(n, q, q_tup, 0);
+    double min_max_radius = 0;
+    double radius = 0;
+    while (!perms.end()) {
+        // print_tup(q_tup);
+        radius = max_radius(dists, q_tup, n);
+        min_max_radius = radius > min_max_radius ? radius : min_max_radius;
+        q_tup = perms.next();
+    }
+    return min_max_radius;
+}
+
+double max_radius(Nparray dists, tup &t, size_t n) {
+
+    double radius = 0;
+    for (size_t i = 0; i < t.size() - 1; i++) {
+        for (size_t j = i + 1; j < t.size(); j++) {
+            radius = radius > dists[i * n + j] ? radius : dists[i * n + j];
+        }
+    }
+    return radius;
 }
 
 void print_tup(tup &t) {
@@ -93,40 +160,11 @@ Permutations::Permutations(size_t _n, size_t _q, vector<size_t> start, size_t _l
     : n{_n}, q{_q}, tup{start}, limit{_limit}, index{0} {}
 
 const vector<size_t> &Permutations::next() {
-    // size_t i = 0;
-    // while ((tup[i] = (tup[i] + 1) % n) == 0 && i < n)
-    //     i++;
 
-    // do {
-    //     tup[i] = (tup[i] + 1) % n;
-    //     ++i;
-    // } while (tup[i - 1] == 0 && i < n);
-
-    // while (hascopies()) {
-    //     i = 0;
-    //     do {
-    //         tup[i] = (tup[i] + 1) % n;
-    //         ++i;
-    //     } while (tup[i - 1] == 0 && i < n);
-    // }
-    // ++index;
-    // return tup;
-    // if (exhausted()) // check if you need to backtrack
-    // {
-
-
-    // } else { // you do not need to backtrack
-    //     tup[q-1]++;
-    //     if(hascopies()){
-    //         return next();
-    //     }
-    //     return tup;
-    // }
-
-    size_t i = q-1;
+    size_t i = q - 1;
     while ((tup[i] = (tup[i] + 1) % n) == 0 && i < n)
         i--;
-    if(hascopies())
+    if (hascopies())
         return next();
     return tup;
 }
@@ -156,8 +194,6 @@ bool Permutations::hascopies() {
     return false;
 }
 
-
-
 Combinations::Combinations(size_t _n, size_t _q) : n{_n}, q{_q}, limit{0}, que() {
     for (size_t i = 0; i < q; i++) {
         que.push_back(i);
@@ -180,7 +216,7 @@ const vector<size_t> &Combinations::next() {
             que.pop_back();
         que[i]++;
         for (size_t j = i + 1; j < q; j++)
-            que.push_back(que[j-1] + 1);
+            que.push_back(que[j - 1] + 1);
     } else {
         // no need to backtrack
         que[q - 1]++;
@@ -193,7 +229,8 @@ const vector<size_t> &Combinations::next() {
 
 bool Combinations::end() {
     // in case that we reached the limit or q is digenerate
-    // other wise we simply check if we reached the last comination in lexicograph manner
+    // other wise we simply check if we reached the last comination in lexicograph
+    // manner
     if (q == 0 || limit != 0 && limit == index)
         return true;
     for (int i = 0; i < q; ++i)

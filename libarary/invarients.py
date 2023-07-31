@@ -114,4 +114,4 @@ def q_packing(G: nx.Graph, q):
     for tup in combinations(G.nodes(), q):
         min_radius = min(min_radius, max_path_length(tup, distances))
         
-    return min_radius
+    return min_radius/2

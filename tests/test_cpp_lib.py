@@ -26,6 +26,14 @@ class TestBindingsComplete:
         
         assert cpp.q_extend_single(self.M, 3) == (2/inva.choose(self.G.number_of_nodes(),2))
 
+    def test_q_packing(self):
+        assert cpp.q_packing_single(self.M,3) == 0.5
+
+    def test_excess_global(self):
+        assert cpp.excess_global_single(self.M) == 1
+
+    
+
 
 
 class TestBindingsLine:
@@ -35,3 +43,9 @@ class TestBindingsLine:
 
     def test_q_extent_single(self):
         assert cpp.q_extend_single(self.M, 2) == (4/inva.choose(self.G.number_of_nodes(),2))
+
+    def test_q_packing(self):
+        assert cpp.q_packing_single(self.M,2) == 0.5
+
+    def test_excess_global(self):
+        assert cpp.excess_global_single(self.M) == 6

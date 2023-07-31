@@ -26,22 +26,23 @@ int main() {
     double res = a.q_extend(tmp, 3, 2);
     cout << "end" << endl;
     cout << res << endl;
-    Permutations perms(static_cast<size_t>(4), static_cast<size_t>(3),
-                       vector<size_t>({0, 1, 2}), 0);
+    Permutations perms(static_cast<size_t>(3), static_cast<size_t>(2),
+                       vector<size_t>({0, 1}), 0);
     vector<size_t> curp({0, 1});
     cout << "prems: \n";
-    do {
+    while (!perms.end()) {
         pv(curp);
         curp = perms.next();
-    } while (!perms.end());
+    }
     pv(curp);
     Combinations combs(static_cast<size_t>(4), static_cast<size_t>(3));
-    vector<size_t> curc({
-        0,1,2});
+    vector<size_t> curc({0, 1, 2});
     cout << "combs: \n";
     do {
         pv(curc);
         curc = combs.next();
     } while (!combs.end());
     pv(curc);
+
+    
 }
