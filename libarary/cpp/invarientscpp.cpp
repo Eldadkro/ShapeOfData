@@ -93,20 +93,53 @@ Permutations::Permutations(size_t _n, size_t _q, vector<size_t> start, size_t _l
     : n{_n}, q{_q}, tup{start}, limit{_limit}, index{0} {}
 
 const vector<size_t> &Permutations::next() {
-    size_t i = 0;
-    while (hascopies())
-        while ((tup[i] = (tup[i] + 1) % n) == 0 && i < n)
-            i++;
-    ++index;
+    // size_t i = 0;
+    // while ((tup[i] = (tup[i] + 1) % n) == 0 && i < n)
+    //     i++;
+
+    // do {
+    //     tup[i] = (tup[i] + 1) % n;
+    //     ++i;
+    // } while (tup[i - 1] == 0 && i < n);
+
+    // while (hascopies()) {
+    //     i = 0;
+    //     do {
+    //         tup[i] = (tup[i] + 1) % n;
+    //         ++i;
+    //     } while (tup[i - 1] == 0 && i < n);
+    // }
+    // ++index;
+    // return tup;
+    // if (exhausted()) // check if you need to backtrack
+    // {
+
+
+    // } else { // you do not need to backtrack
+    //     tup[q-1]++;
+    //     if(hascopies()){
+    //         return next();
+    //     }
+    //     return tup;
+    // }
+
+    size_t i = q-1;
+    while ((tup[i] = (tup[i] + 1) % n) == 0 && i < n)
+        i--;
+    if(hascopies())
+        return next();
     return tup;
 }
 
 bool Permutations::end() {
     if (q == 0 || limit != 0 && limit == index)
         return true;
-    for (auto val : tup)
-        if (val < n - 1)
+    size_t correct_value = n - 1;
+    for (auto val : tup) {
+        if (val != correct_value)
             return false;
+        correct_value--;
+    }
     return true;
 }
 
@@ -123,13 +156,15 @@ bool Permutations::hascopies() {
     return false;
 }
 
-Combinations::Combinations(size_t _n, size_t _q) : n{_n}, q{_q}, limit{0}, que(q) {
+
+
+Combinations::Combinations(size_t _n, size_t _q) : n{_n}, q{_q}, limit{0}, que() {
     for (size_t i = 0; i < q; i++) {
-        que.push_back(n - (q - i));
+        que.push_back(i);
     }
 }
 
-Combinations::Combinations(size_t _n, size_t _q, vector<size_t> start, size_t _limit=0)
+Combinations::Combinations(size_t _n, size_t _q, vector<size_t> start, size_t _limit = 0)
     : n{_n}, q{_q}, limit{_limit}, que(start) {}
 
 const vector<size_t> &Combinations::next() {
@@ -137,14 +172,15 @@ const vector<size_t> &Combinations::next() {
     //  in a case where we reached the end of a branch we backtrack
     //  we return que as it is the combination
     //  but it is also the que for the DFS run
-    if (que.back() == n - 1) {
+    size_t tmp = que.back();
+    if (tmp == n - 1) {
         // backtrack
         size_t i;
         for (i = q - 1; i > 0 && que[i] == n - (q - i); i--)
             que.pop_back();
         que[i]++;
         for (size_t j = i + 1; j < q; j++)
-            que.push_back(que[i] + 1);
+            que.push_back(que[j-1] + 1);
     } else {
         // no need to backtrack
         que[q - 1]++;

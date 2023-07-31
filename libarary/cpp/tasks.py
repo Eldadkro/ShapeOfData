@@ -34,9 +34,9 @@ def test(c):
     print("compiling", input_file)
     c.run(concut([command,complie_flags,output,input_file]))
     command  = "g++"
-    complie_flags = " -fdiagnostics-color=always -pthread  -L. -linvarientscpp"
+    complie_flags = " -fdiagnostics-color=always -pthread  -L. "
     output = "-o main"
-    input_file = "main.o"
+    input_file = "main.o libinvarientscpp.o"
     print("linking: ", input_file)
     c.run(concut([command,complie_flags,output,input_file]))
 

@@ -67,6 +67,7 @@ class Permutations {
     vector<size_t> tup;
 
     bool hascopies();
+    bool exhausted();
 
   public:
     Permutations(size_t _n, size_t _q, vector<size_t> start, size_t _limit);
