@@ -2,19 +2,21 @@
 import networkx as nx
 import numpy as np
 
-def read_graph_from_edgelist(path:str) -> nx.Graph:
+def read_graph_from_edgelist(path:str, delimiter=" ") -> nx.Graph:
     """reads a graph from .edge file"""
     f = open(path, "r", encoding="utf_8")
     edges = {}
     nodes = set()
     for line in f:
-        split = line.split(" ")
+        split = line.split(delimiter)
         edge = [int(split[0]), int(split[1])]
         edge.sort()
         nodes.add(edge[0])
         nodes.add(edge[1])
-        #TODO
-        weight = float(1)
+        if (len(split) >= 3):
+            weight = float(split[2])
+        else:
+            weight = float
         edges[tuple(edge)] = weight
 
     G = nx.Graph()

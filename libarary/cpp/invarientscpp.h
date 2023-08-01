@@ -4,7 +4,9 @@
 #include <algorithm>
 #include <iostream>
 #include <thread>
+#include <unordered_map>
 #include <vector>
+#include <utility>
 #define NUM_THREARDS 32
 
 using namespace std;
@@ -70,6 +72,7 @@ class Permutations {
     vector<size_t> tup;
 
     bool hascopies();
+    bool hascopies(pair<size_t, size_t> &res);
 
   public:
     Permutations(size_t _n, size_t _q, vector<size_t> start, size_t _limit);
@@ -87,6 +90,19 @@ class Combinations {
   public:
     Combinations(size_t _n, size_t _q);
     Combinations(size_t _n, size_t _q, vector<size_t> start, size_t _limit);
+    const vector<size_t> &next();
+    bool end();
+};
+
+class Permutations_with_reps {
+  private:
+    size_t n;
+    size_t q;
+    size_t limit, index;
+    vector<size_t> tup;
+
+  public:
+    Permutations_with_reps(size_t _n, size_t _q, vector<size_t> start, size_t _limit);
     const vector<size_t> &next();
     bool end();
 };

@@ -18,7 +18,7 @@ extern "C" {
     }
 
     double q_packing_single(Nparray dists, size_t n, size_t q) {
-        return Single_invarients().q_packing(dists, n, q)/2;
+        return Single_invarients().q_packing(dists, n, q) / 2;
     }
 
     void test() { cout << "hello world\n"; }
@@ -73,7 +73,7 @@ double Single_invarients::q_extend(Nparray dists, size_t n, size_t q) {
     for (size_t i = 0; i < q; ++i) {
         q_tup[i] = i;
     }
-    Permutations perms(n, q, q_tup, 0);
+    Permutations_with_reps perms(n, q, q_tup, 0);
     // cout << q_tup.size() << endl;
     // print_tup(q_tup);
 
@@ -86,7 +86,6 @@ double Single_invarients::q_extend(Nparray dists, size_t n, size_t q) {
         q_tup = perms.next();
     }
     return max_length;
-    return 0;
 }
 
 double Single_invarients::excess_global(Nparray dists, size_t n) {
@@ -124,7 +123,7 @@ double Single_invarients::q_packing(Nparray dists, size_t n, size_t q) {
     for (size_t i = 0; i < q; ++i) {
         q_tup[i] = i;
     }
-    Permutations perms(n, q, q_tup, 0);
+    Permutations_with_reps perms(n, q, q_tup, 0);
     double min_max_radius = 0;
     double radius = 0;
     while (!perms.end()) {
@@ -161,11 +160,11 @@ Permutations::Permutations(size_t _n, size_t _q, vector<size_t> start, size_t _l
 
 const vector<size_t> &Permutations::next() {
 
-    size_t i = q - 1;
-    while ((tup[i] = (tup[i] + 1) % n) == 0 && i < n)
-        i--;
-    if (hascopies())
-        return next();
+    do {
+        size_t i = q - 1;
+        while ((tup[i] = (tup[i] + 1) % n) == 0 && i > 0)
+            i--;
+    } while (hascopies());
     return tup;
 }
 
@@ -185,12 +184,25 @@ bool Permutations::hascopies() {
     if (tup.size() == 0) {
         return false;
     }
-    for (size_t i = 1; i < tup.size(); ++i) {
-        for (size_t j = 0; j < i; ++j) {
+    for (size_t i = 0; i < tup.size() - 1; ++i) {
+        for (size_t j = i + 1; j < tup.size(); ++j) {
             if (tup[i] == tup[j])
                 return true;
         }
     }
+    return false;
+}
+
+bool Permutations::hascopies(pair<size_t, size_t> &res) {
+    for (size_t i = 0; i < tup.size() - 1; ++i) {
+        for (size_t j = i + 1; j < tup.size(); ++j) {
+            if (tup[i] == tup[j]) {
+                res = pair<size_t, size_t>(i, j);
+                return true;
+            }
+        }
+    }
+    res = pair<size_t, size_t>(tup.size(), tup.size() + 1);
     return false;
 }
 
@@ -237,4 +249,22 @@ bool Combinations::end() {
         if (que[i] != n - q + i)
             return false;
     return true;
+}
+
+Permutations_with_reps::Permutations_with_reps(size_t _n, size_t _q, vector<size_t> start,
+                                               size_t _limit = 0)
+    : n{_n}, q{_q}, tup{start}, limit{_limit}, index{0} {}
+
+bool Permutations_with_reps::end() {
+    for (size_t i = 0; i < q; i++)
+        if (tup[i] < n - 1)
+            return false;
+    return true;
+}
+
+const vector<size_t> &Permutations_with_reps::next() {
+    size_t i = q - 1;
+    while ((tup[i] = (tup[i] + 1) % n) == 0 && i > 0)
+        i--;
+    return tup;
 }
