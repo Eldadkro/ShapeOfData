@@ -20,6 +20,19 @@ def q_extend_single(dists: np.array, q: int):
     c_q_extend_single.restype = ctypes.c_double
     return c_q_extend_single(dists, n, q) / math.comb(n, 2)
 
+def q_extend_multi(dists: np.array, q: int):
+    n = len(dists)
+    p = os.path.dirname(__file__) + "/libinvarientscpp.so"
+    c_lib = ctypes.CDLL(p)
+    c_q_extend_multi = c_lib.q_extend_multi
+    c_q_extend_multi.argtypes = [
+        ndpointer(ctypes.c_double, flags="C_CONTIGUOUS"),
+        ctypes.c_size_t,
+        ctypes.c_size_t,
+    ]
+    c_q_extend_multi.restype = ctypes.c_double
+    return c_q_extend_multi(dists, n, q) / math.comb(n, 2)
+
 
 def excess_global_single(dists: np.array):
     n = len(dists)

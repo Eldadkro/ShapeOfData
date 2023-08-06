@@ -32,6 +32,8 @@ class TestBindingsComplete:
     def test_excess_global(self):
         assert cpp.excess_global_single(self.M) == 1
 
+    def test_q_extent_single(self):
+        assert cpp.q_extend_multi(self.M, 3) == (2/inva.choose(self.G.number_of_nodes(),2))
     
 
 

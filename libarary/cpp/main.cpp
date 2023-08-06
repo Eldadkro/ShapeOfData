@@ -46,34 +46,40 @@ void test_combs() {
     pv(curp);
 }
 int main() {
-    // vector<double> dists(static_cast<size_t>(9));
-    // cout << dists.capacity() << endl;
-    // cout << dists.size() << endl;
-    // double tmp[9] = {0, 2, 1, 2, 0, 1, 1, 1, 0};
-    // // auto p_dists = dists.data();
-    // for (size_t i = 0; i < 9; ++i) {
-    //     dists[i] = tmp[i];
-    // }
-    // cout << endl;
-    // size_t n = 9;
-    // size_t q = 2;
-    // // print_dists(dists.data(),3);
-    // Single_invarients a;
-    // auto p = dists.data();
-    // cout << "enter" << endl;
-    // double res = a.q_extend(tmp, 3, 2);
-    // cout << "end" << endl;
-    // cout << res << endl;
+    size_t n = 8;
+    size_t q = 2;
+    vector<double> dists(static_cast<size_t>(n*n));
+    
+    // auto p_dists = dists.data();
+    for (size_t i = 0; i < n-1; ++i) {
+        dists[i*n + i+1] = 1;
+        dists[(i+1)*n + i] = 1;
+    }
+    cout << endl;
+    
+    print_dists(dists.data(),n);
+    Single_invarients a;
+    
+    cout << "enter single" << endl;
+    double res_single = a.q_extend(dists.data(), n,q);
+    cout << "end" << endl;
+    cout << res_single << endl;
 
-    // test_perms_with_rep();
-    // test_perms();
-    // test_combs();
-    size_t n = 3000, q = 5;
-    vector<size_t> curp({0, 1, 2});
-    Permutations_with_reps permsr(static_cast<size_t>(n), static_cast<size_t>(q), curp,
-                                  0);
-    size_t tmp = Combi::perm(n,q);                                  
-    cout << "prems with reps " << tmp << " : \n";
+    Multi_invarients b;
+    cout << "enter multi" << endl;
+    double res_multi = b.q_extend(dists.data(), n, q);
+    cout << "end" << endl;
+    cout << res_multi << endl;
+
+    // // test_perms_with_rep();
+    // // test_perms();
+    // // test_combs();
+    // size_t n = 3000, q = 5;
+    // vector<size_t> curp({0, 1, 2});
+    // Permutations_with_reps permsr(static_cast<size_t>(n), static_cast<size_t>(q), curp,
+                                //   0);
+    // size_t tmp = Combi::perm(n,q);                                  
+    // cout << "prems with reps " << tmp << " : \n";
     // auto startpr = std::chrono::steady_clock::now();
     // while (!permsr.end()) {
     //     // pv(curp);

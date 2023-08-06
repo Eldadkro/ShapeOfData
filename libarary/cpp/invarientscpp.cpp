@@ -86,7 +86,7 @@ double Multi_invarients::q_extend(Nparray dists, size_t n, size_t q) {
 
     size_t n_tuples = Combi::perm(n, q);
     size_t chunk_size = n_tuples / (num_of_threads);
-    vector<double> res;
+    vector<double> res(num_of_threads);
     for (size_t i = 0; i < num_of_threads - 1; ++i) {
         ThreadInput input{};
         input.dists = dists;
@@ -94,9 +94,9 @@ double Multi_invarients::q_extend(Nparray dists, size_t n, size_t q) {
         input.limit = chunk_size;
         input.n = n;
         input.q = q;
-        input.res = &res;
+        input.res = res.data();
         input.start = pos_element(i * chunk_size, q, n);
-        pool[i] = thread(Multi_invarients::thread_q_extend, input);
+        pool[i] = thread(thread_q_extend, input);
     }
     chunk_size += (n_tuples % num_of_threads);
     ThreadInput input{};
@@ -105,13 +105,21 @@ double Multi_invarients::q_extend(Nparray dists, size_t n, size_t q) {
     input.limit = chunk_size;
     input.n = n;
     input.q = q;
-    input.res = &res;
+    input.res = res.data();
     input.start = pos_element((num_of_threads - 1) * chunk_size, q, n);
-    pool[num_of_threads -1] = thread(Multi_invarients::thread_q_extend, input);
+    pool[num_of_threads -1] = thread(thread_q_extend, input);
+
+    barrier();
+    
     double max_length = 0;
     for (auto l : res)
         max_length = max_length > l ? max_length : l;
     return max_length;
+}
+
+void Multi_invarients::barrier() {
+    for(size_t i=0;i<num_of_threads; ++i)
+        pool[i].join();
 }
 
 vector<size_t> Multi_invarients::pos_element(size_t pos, size_t q, size_t n) {
@@ -127,12 +135,12 @@ vector<size_t> Multi_invarients::pos_element(size_t pos, size_t q, size_t n) {
     return element;
 }
 
-void Multi_invarients::thread_q_extend(ThreadInput input) {
+void thread_q_extend(ThreadInput input) {
 
     // unpacking
     Permutations perms(input.n, input.q, input.start, input.limit);
     vector<size_t> q_tup = input.start;
-    vector<double> &res = *input.res;
+    double *res = input.res;
     size_t index = input.index;
     size_t n = input.n, q = input.q;
     Nparray dists = input.dists;

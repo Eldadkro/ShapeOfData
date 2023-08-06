@@ -29,6 +29,16 @@ extern "C" {
     void print_dists(Nparray dists, size_t n);
 }
 
+struct ThreadInput {
+    vector<size_t> start; 
+    size_t n;
+    size_t q;
+    size_t limit;
+    double *res; 
+    size_t index;
+    Nparray dists;
+};
+
 class Single_invarients {
 
   public:
@@ -43,7 +53,8 @@ class Multi_invarients {
     vector<thread> pool;
     size_t num_of_threads;
     vector<size_t> pos_element(size_t pos, size_t q, size_t n);
-    void thread_q_extend(ThreadInput input);
+    void barrier();
+    
 
   public:
     Multi_invarients(size_t);
@@ -54,16 +65,8 @@ class Multi_invarients {
     double q_packing(Nparray dists, size_t n, size_t q);
 };
 
-struct ThreadInput {
-    vector<size_t> start; 
-    size_t n;
-    size_t q;
-    size_t limit;
-    vector<double> *res; 
-    size_t index;
-    Nparray dists;
-};
 
+void thread_q_extend(ThreadInput input);
 double q_path_length(Nparray dists, size_t n, tup &t);
 double excess(Nparray dists, tup &t, size_t n);
 double max_radius(Nparray dists, tup &t, size_t n);
