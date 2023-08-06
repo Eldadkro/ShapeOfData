@@ -1,5 +1,7 @@
-#include "invarientscpp.h"
 #include <chrono>
+#include "invarientscpp.h"
+#include "combi.h"
+
 void pv(vector<size_t> v) {
     cout << "(";
     for (auto a : v)
@@ -63,52 +65,53 @@ int main() {
     // cout << "end" << endl;
     // cout << res << endl;
 
-    test_perms_with_rep();
-    test_perms();
-    test_combs();
-    size_t n = 200, q = 3;
+    // test_perms_with_rep();
+    // test_perms();
+    // test_combs();
+    size_t n = 3000, q = 5;
     vector<size_t> curp({0, 1, 2});
     Permutations_with_reps permsr(static_cast<size_t>(n), static_cast<size_t>(q), curp,
                                   0);
-    cout << "prems with reps: \n";
-    auto startpr = std::chrono::steady_clock::now();
-    while (!permsr.end()) {
-        // pv(curp);
-        curp = permsr.next();
-    }
-    auto endpr = std::chrono::steady_clock::now();
-    std::cout << "perms with reps = ";
-    std::cout
-        << std::chrono::duration_cast<std::chrono::microseconds>(endpr -
-        startpr).count()
-        << "[µs]" << std::endl;
+    size_t tmp = Combi::perm(n,q);                                  
+    cout << "prems with reps " << tmp << " : \n";
+    // auto startpr = std::chrono::steady_clock::now();
+    // while (!permsr.end()) {
+    //     // pv(curp);
+    //     curp = permsr.next();
+    // }
+    // auto endpr = std::chrono::steady_clock::now();
+    // std::cout << "perms with reps = ";
+    // std::cout
+    //     << std::chrono::duration_cast<std::chrono::microseconds>(endpr -
+    //     startpr).count()
+    //     << "[µs]" << std::endl;
 
-    Combinations combs(static_cast<size_t>(n), static_cast<size_t>(q));
-    vector<size_t> curc({0, 1, 2});
-    cout << "combs: \n";
-    auto startc = std::chrono::steady_clock::now();
-    while (!combs.end()) {
-        // pv(curc);
-        curc = combs.next();
-    }
-    auto endc = std::chrono::steady_clock::now();
+    // Combinations combs(static_cast<size_t>(n), static_cast<size_t>(q));
+    // vector<size_t> curc({0, 1, 2});
+    // cout << "combs: \n";
+    // auto startc = std::chrono::steady_clock::now();
+    // while (!combs.end()) {
+    //     // pv(curc);
+    //     curc = combs.next();
+    // }
+    // auto endc = std::chrono::steady_clock::now();
 
-    std::cout << "combs = ";
-    std::cout
-        << std::chrono::duration_cast<std::chrono::microseconds>(endc - startc).count()
-        << "[µs]" << std::endl;
-    curp = {0, 1, 2};
-    cout << curp.size() << endl;
-    Permutations perms(static_cast<size_t>(n), static_cast<size_t>(q), curp, 0);
-    cout << "prems: \n";
-    auto startp = std::chrono::steady_clock::now();
-    while (!perms.end()) {
-        // pv(curp);
-        curp = perms.next();
-    }
-    auto endp = std::chrono::steady_clock::now();
-    std::cout << "prems = ";
-    std::cout
-        << std::chrono::duration_cast<std::chrono::microseconds>(endp - startp).count()
-        << "[µs]" << std::endl;
+    // std::cout << "combs = ";
+    // std::cout
+    //     << std::chrono::duration_cast<std::chrono::microseconds>(endc - startc).count()
+    //     << "[µs]" << std::endl;
+    // curp = {0, 1, 2};
+    // cout << curp.size() << endl;
+    // Permutations perms(static_cast<size_t>(n), static_cast<size_t>(q), curp, 0);
+    // cout << "prems: \n";
+    // auto startp = std::chrono::steady_clock::now();
+    // while (!perms.end()) {
+    //     // pv(curp);
+    //     curp = perms.next();
+    // }
+    // auto endp = std::chrono::steady_clock::now();
+    // std::cout << "prems = ";
+    // std::cout
+    //     << std::chrono::duration_cast<std::chrono::microseconds>(endp - startp).count()
+    //     << "[µs]" << std::endl;
 }

@@ -1,11 +1,10 @@
 #include "invarientscpp.h"
+#include "combi.h"
 
 extern "C" {
 
     double q_extend_single(Nparray dists, size_t n, size_t q) {
-        // cout << dists << ' '<< n<< ' '<< q<< endl;
         double res = Single_invarients().q_extend(dists, n, q);
-        // cout << "in C: " << res << endl;
         return res;
     }
 
@@ -17,11 +16,22 @@ extern "C" {
         return Single_invarients().excess_global(dists, n);
     }
 
+    double excess_global_multi(Nparray dists, size_t n) {
+        return Multi_invarients().excess_global(dists, n);
+    }
+
     double q_packing_single(Nparray dists, size_t n, size_t q) {
         return Single_invarients().q_packing(dists, n, q) / 2;
     }
 
-    void test() { cout << "hello world\n"; }
+    double q_packing_multi(Nparray dists, size_t n, size_t q) {
+        return Multi_invarients().q_packing(dists, n, q) / 2;
+    }
+
+    double Multi_invarients::excess_global(Nparray dists, size_t n) { return 0; }
+    double Multi_invarients::q_packing(Nparray dists, size_t n, size_t q) { return 0; }
+
+    void test() { cout << "hello worlsd\n " << Combi::perm(200, 5) << endl; }
 
     void print_dists(Nparray dists, size_t n) {
         for (size_t i = 0; i < n; i++) {
@@ -38,22 +48,6 @@ Multi_invarients::Multi_invarients(size_t nthreads) : num_of_threads{nthreads} {
 }
 Multi_invarients::Multi_invarients() : num_of_threads{NUM_THREARDS} {
     pool = vector<thread>(num_of_threads);
-}
-
-double Multi_invarients::q_extend(Nparray dists, size_t n, size_t q) { return 0; }
-
-bool end(tup &t, size_t q) {
-    for (size_t i = 0; i < q; i++)
-        if (t[i] < q - 1)
-            return false;
-    return true;
-}
-
-void next_tup(tup &t, size_t n) {
-
-    size_t i = 0;
-    while ((t[i] = (t[i] + 1) % n) == 0 && i < n)
-        i++;
 }
 
 double q_path_length(Nparray dists, size_t n, tup &t) {
@@ -73,7 +67,7 @@ double Single_invarients::q_extend(Nparray dists, size_t n, size_t q) {
     for (size_t i = 0; i < q; ++i) {
         q_tup[i] = i;
     }
-    Permutations_with_reps perms(n, q, q_tup, 0);
+    Permutations perms(n, q, q_tup, 0);
     // cout << q_tup.size() << endl;
     // print_tup(q_tup);
 
@@ -87,6 +81,84 @@ double Single_invarients::q_extend(Nparray dists, size_t n, size_t q) {
     }
     return max_length;
 }
+
+double Multi_invarients::q_extend(Nparray dists, size_t n, size_t q) {
+
+    size_t n_tuples = Combi::perm(n, q);
+    size_t chunk_size = n_tuples / (num_of_threads);
+    vector<double> res;
+    for (size_t i = 0; i < num_of_threads - 1; ++i) {
+        ThreadInput input{};
+        input.dists = dists;
+        input.index = i;
+        input.limit = chunk_size;
+        input.n = n;
+        input.q = q;
+        input.res = &res;
+        input.start = pos_element(i * chunk_size, q, n);
+        pool[i] = thread(Multi_invarients::thread_q_extend, input);
+    }
+    chunk_size += (n_tuples % num_of_threads);
+    ThreadInput input{};
+    input.dists = dists;
+    input.index = num_of_threads - 1;
+    input.limit = chunk_size;
+    input.n = n;
+    input.q = q;
+    input.res = &res;
+    input.start = pos_element((num_of_threads - 1) * chunk_size, q, n);
+    pool[num_of_threads -1] = thread(Multi_invarients::thread_q_extend, input);
+    double max_length = 0;
+    for (auto l : res)
+        max_length = max_length > l ? max_length : l;
+    return max_length;
+}
+
+vector<size_t> Multi_invarients::pos_element(size_t pos, size_t q, size_t n) {
+    vector<size_t> element(q);
+    size_t curr;
+    size_t i = 0;
+    while (pos > 0 && i < q) {
+        curr = pos % n;
+        pos /= n;
+        element[i] = curr;
+        ++i;
+    }
+    return element;
+}
+
+void Multi_invarients::thread_q_extend(ThreadInput input) {
+
+    // unpacking
+    Permutations perms(input.n, input.q, input.start, input.limit);
+    vector<size_t> q_tup = input.start;
+    vector<double> &res = *input.res;
+    size_t index = input.index;
+    size_t n = input.n, q = input.q;
+    Nparray dists = input.dists;
+    double max_length = 0;
+    double length = 0;
+    while (!perms.end()) {
+        length = q_path_length(dists, n, q_tup);
+        max_length = length > max_length ? length : max_length;
+        q_tup = perms.next();
+    }
+    res[index] = max_length;
+}
+
+// bool end(tup &t, size_t q) {
+//     for (size_t i = 0; i < q; i++)
+//         if (t[i] < q - 1)
+//             return false;
+//     return true;
+// }
+
+// void next_tup(tup &t, size_t n) {
+
+//     size_t i = 0;
+//     while ((t[i] = (t[i] + 1) % n) == 0 && i < n)
+//         i++;
+// }
 
 double Single_invarients::excess_global(Nparray dists, size_t n) {
     if (n < 3)
@@ -123,7 +195,7 @@ double Single_invarients::q_packing(Nparray dists, size_t n, size_t q) {
     for (size_t i = 0; i < q; ++i) {
         q_tup[i] = i;
     }
-    Permutations_with_reps perms(n, q, q_tup, 0);
+    Permutations perms(n, q, q_tup, 0);
     double min_max_radius = 0;
     double radius = 0;
     while (!perms.end()) {
@@ -165,6 +237,9 @@ const vector<size_t> &Permutations::next() {
         while ((tup[i] = (tup[i] + 1) % n) == 0 && i > 0)
             i--;
     } while (hascopies());
+    if (limit != 0) {
+        index++;
+    }
     return tup;
 }
 

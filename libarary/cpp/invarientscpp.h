@@ -5,8 +5,8 @@
 #include <iostream>
 #include <thread>
 #include <unordered_map>
-#include <vector>
 #include <utility>
+#include <vector>
 #define NUM_THREARDS 32
 
 using namespace std;
@@ -34,7 +34,6 @@ class Single_invarients {
   public:
     Single_invarients() {}
     double q_extend(Nparray dists, size_t n, size_t q);
-    // TODO tests
     double excess_global(Nparray dists, size_t n);
     double q_packing(Nparray dists, size_t n, size_t q);
 };
@@ -43,21 +42,33 @@ class Multi_invarients {
   private:
     vector<thread> pool;
     size_t num_of_threads;
+    vector<size_t> pos_element(size_t pos, size_t q, size_t n);
+    void thread_q_extend(ThreadInput input);
 
   public:
     Multi_invarients(size_t);
     Multi_invarients();
     double q_extend(Nparray dists, size_t n, size_t q);
     //     // TODO
-    double excess_global(Nparray);
-    //     //  double q_packing(Nparray);
+    double excess_global(Nparray dists, size_t n);
+    double q_packing(Nparray dists, size_t n, size_t q);
+};
+
+struct ThreadInput {
+    vector<size_t> start; 
+    size_t n;
+    size_t q;
+    size_t limit;
+    vector<double> *res; 
+    size_t index;
+    Nparray dists;
 };
 
 double q_path_length(Nparray dists, size_t n, tup &t);
 double excess(Nparray dists, tup &t, size_t n);
 double max_radius(Nparray dists, tup &t, size_t n);
-void next_tup(tup &t, size_t n);
-bool end(tup &t, size_t n);
+// void next_tup(tup &t, size_t n);
+// bool end(tup &t, size_t n);
 
 void test2();
 
