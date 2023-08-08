@@ -107,10 +107,10 @@ double Multi_invarients::q_extend(Nparray dists, size_t n, size_t q) {
     input.q = q;
     input.res = res.data();
     input.start = pos_element((num_of_threads - 1) * chunk_size, q, n);
-    pool[num_of_threads -1] = thread(thread_q_extend, input);
+    pool[num_of_threads - 1] = thread(thread_q_extend, input);
 
     barrier();
-    
+
     double max_length = 0;
     for (auto l : res)
         max_length = max_length > l ? max_length : l;
@@ -118,21 +118,39 @@ double Multi_invarients::q_extend(Nparray dists, size_t n, size_t q) {
 }
 
 void Multi_invarients::barrier() {
-    for(size_t i=0;i<num_of_threads; ++i)
+    for (size_t i = 0; i < num_of_threads; ++i)
         pool[i].join();
 }
 
-vector<size_t> Multi_invarients::pos_element(size_t pos, size_t q, size_t n) {
-    vector<size_t> element(q);
-    size_t curr;
+size_t Multi_invarients::pick_element(vector<bool> &used, size_t index) {
     size_t i = 0;
-    while (pos > 0 && i < q) {
-        curr = pos % n;
-        pos /= n;
-        element[i] = curr;
-        ++i;
+    for (i = 0; i < used.size(); i++) {
+        if (used[i])
+            continue;
+        if (index == 0) {
+            break;
+        }
+        index--;
     }
-    return element;
+    used[i] = true;
+    return i;
+}
+
+vector<size_t> Multi_invarients::pos_element(size_t pos, size_t n, size_t q) {
+    vector<bool> used(n);
+    vector<size_t> indicies(q);
+    vector<size_t> perm(q);
+    // save index of each value to walk through
+    for (size_t i = 0; i < q; ++i) {
+        size_t curr = pos % (n - (q - 1) + i);
+        pos /= (n - (q - 1) + i);
+        indicies[q - 1 - i] = curr;
+    }
+
+    for (size_t i = 0; i < q; ++i) {
+        perm[i] = pick_element(used, indicies[i]);
+    }
+    return perm;
 }
 
 void thread_q_extend(ThreadInput input) {
@@ -152,6 +170,25 @@ void thread_q_extend(ThreadInput input) {
         q_tup = perms.next();
     }
     res[index] = max_length;
+}
+
+// double Multi_invarients::excess_global(Nparray dists, size_t n) {
+//     size_t combs = Combi::comb(n, 3);
+//     size_t chunksize = combs / (num_of_threads);
+//     for (size_t i = 0; i < num_of_threads - 1; ++i) {
+//         vector<size_t> tup = pos_element(chunksize * i, 3, n);
+//     }
+//     return 0;
+// }
+
+// TODO not ready
+vector<size_t> Multi_invarients::combi_element(size_t pos, size_t q, size_t n) {
+    vector<size_t> combi(q);
+    for (size_t i = q - 1; i >= 0; --i) {
+        combi[i] = pos % n;
+        pos /= n;
+    }
+
 }
 
 // bool end(tup &t, size_t q) {

@@ -53,20 +53,25 @@ class Multi_invarients {
     vector<thread> pool;
     size_t num_of_threads;
     vector<size_t> pos_element(size_t pos, size_t q, size_t n);
+    size_t pick_element(vector<bool> &used, size_t index);
+    vector<size_t> combi_element(size_t pos, size_t q, size_t n);
     void barrier();
     
 
   public:
     Multi_invarients(size_t);
     Multi_invarients();
+    // TODO tests
     double q_extend(Nparray dists, size_t n, size_t q);
-    //     // TODO
+    //     // TODO 
     double excess_global(Nparray dists, size_t n);
     double q_packing(Nparray dists, size_t n, size_t q);
 };
 
 
 void thread_q_extend(ThreadInput input);
+void thread_excess_global(ThreadInput input);
+void thread_q_packing(ThreadInput input);
 double q_path_length(Nparray dists, size_t n, tup &t);
 double excess(Nparray dists, tup &t, size_t n);
 double max_radius(Nparray dists, tup &t, size_t n);

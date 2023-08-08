@@ -1,6 +1,6 @@
-#include <chrono>
-#include "invarientscpp.h"
 #include "combi.h"
+#include "invarientscpp.h"
+#include <chrono>
 
 void pv(vector<size_t> v) {
     cout << "(";
@@ -8,6 +8,8 @@ void pv(vector<size_t> v) {
         cout << a << ", ";
     cout << ")" << endl;
 }
+
+
 
 void test_perms() {
     cout << "prems: \n";
@@ -45,31 +47,41 @@ void test_combs() {
     }
     pv(curp);
 }
-int main() {
-    size_t n = 8;
-    size_t q = 2;
-    vector<double> dists(static_cast<size_t>(n*n));
-    
-    // auto p_dists = dists.data();
-    for (size_t i = 0; i < n-1; ++i) {
-        dists[i*n + i+1] = 1;
-        dists[(i+1)*n + i] = 1;
-    }
-    cout << endl;
-    
-    print_dists(dists.data(),n);
-    Single_invarients a;
-    
-    cout << "enter single" << endl;
-    double res_single = a.q_extend(dists.data(), n,q);
-    cout << "end" << endl;
-    cout << res_single << endl;
 
-    Multi_invarients b;
-    cout << "enter multi" << endl;
-    double res_multi = b.q_extend(dists.data(), n, q);
-    cout << "end" << endl;
-    cout << res_multi << endl;
+// TODO not ready
+vector<size_t> Multi_invarients::combi_element(size_t pos, size_t q, size_t n) {
+    vector<size_t> combi(q);
+    for (size_t i = 0; i < q-1; ++i) {
+        
+    }
+}
+
+int main() {
+    size_t n = 4;
+    size_t q = 3;
+    vector<double> dists(static_cast<size_t>(n * n));
+    cout << Combi::comb(n,q) << endl;
+
+    // // auto p_dists = dists.data();
+    // for (size_t i = 0; i < n-1; ++i) {
+    //     dists[i*n + i+1] = 1;
+    //     dists[(i+1)*n + i] = 1;
+    // }
+    // cout << endl;
+
+    // print_dists(dists.data(),n);
+    // Single_invarients a;
+
+    // cout << "enter single" << endl;
+    // double res_single = a.q_extend(dists.data(), n,q);
+    // cout << "end" << endl;
+    // cout << res_single << endl;
+
+    // Multi_invarients b;
+    // cout << "enter multi" << endl;
+    // double res_multi = b.q_extend(dists.data(), n, q);
+    // cout << "end" << endl;
+    // cout << res_multi << endl;
 
     // // test_perms_with_rep();
     // // test_perms();
@@ -77,8 +89,8 @@ int main() {
     // size_t n = 3000, q = 5;
     // vector<size_t> curp({0, 1, 2});
     // Permutations_with_reps permsr(static_cast<size_t>(n), static_cast<size_t>(q), curp,
-                                //   0);
-    // size_t tmp = Combi::perm(n,q);                                  
+    //   0);
+    // size_t tmp = Combi::perm(n,q);
     // cout << "prems with reps " << tmp << " : \n";
     // auto startpr = std::chrono::steady_clock::now();
     // while (!permsr.end()) {
