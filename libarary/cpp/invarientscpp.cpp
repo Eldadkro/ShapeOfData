@@ -28,9 +28,6 @@ extern "C" {
         return Multi_invarients().q_packing(dists, n, q) / 2;
     }
 
-    double Multi_invarients::excess_global(Nparray dists, size_t n) { return 0; }
-    double Multi_invarients::q_packing(Nparray dists, size_t n, size_t q) { return 0; }
-
     void test() { cout << "hello worlsd\n " << Combi::perm(200, 5) << endl; }
 
     void print_dists(Nparray dists, size_t n) {
@@ -41,6 +38,60 @@ extern "C" {
             cout << "\n";
         }
     }
+}
+
+double Multi_invarients::excess_global(Nparray dists, size_t n) { return 0; }
+
+void thread_q_packing(ThreadInput input) {
+    Permutations perms(input.n, input.q, input.start, input.limit);
+    vector<size_t> q_tup = input.start;
+    double *res = input.res;
+    size_t index = input.index;
+    size_t n = input.n, q = input.q;
+    Nparray dists = input.dists;
+    double min_max_r = n;
+    double radius = 0;
+    while (!perms.end()) {
+        radius = max_radius(dists, q_tup, n);
+        min_max_r = radius > min_max_r ?  min_max_r : radius;
+        q_tup = perms.next();
+    }
+    res[index] = min_max_r;
+}
+
+double Multi_invarients::q_packing(Nparray dists, size_t n, size_t q) {
+
+    size_t n_tuples = Combi::perm(n, q);
+    size_t chunk_size = n_tuples / (num_of_threads);
+    vector<double> res(num_of_threads);
+    for (size_t i = 0; i < num_of_threads - 1; ++i) {
+        ThreadInput input{};
+        input.dists = dists;
+        input.index = i;
+        input.limit = chunk_size;
+        input.n = n;
+        input.q = q;
+        input.res = res.data();
+        input.start = pos_element(i * chunk_size, n, q);
+        pool[i] = thread(thread_q_packing, input);
+    }
+    chunk_size += (n_tuples % num_of_threads);
+    ThreadInput input{};
+    input.dists = dists;
+    input.index = num_of_threads - 1;
+    input.limit = chunk_size;
+    input.n = n;
+    input.q = q;
+    input.res = res.data();
+    input.start = pos_element((num_of_threads - 1) * chunk_size, n, q);
+    pool[num_of_threads - 1] = thread(thread_q_packing, input);
+
+    barrier();
+
+    double min_radius = n;
+    for (auto l : res)
+        min_radius = min_radius < l ? min_radius : l;
+    return min_radius/2;
 }
 
 Multi_invarients::Multi_invarients(size_t nthreads) : num_of_threads{nthreads} {
@@ -95,7 +146,7 @@ double Multi_invarients::q_extend(Nparray dists, size_t n, size_t q) {
         input.n = n;
         input.q = q;
         input.res = res.data();
-        input.start = pos_element(i * chunk_size, q, n);
+        input.start = pos_element(i * chunk_size, n, q);
         pool[i] = thread(thread_q_extend, input);
     }
     chunk_size += (n_tuples % num_of_threads);
@@ -106,15 +157,15 @@ double Multi_invarients::q_extend(Nparray dists, size_t n, size_t q) {
     input.n = n;
     input.q = q;
     input.res = res.data();
-    input.start = pos_element((num_of_threads - 1) * chunk_size, q, n);
+    input.start = pos_element((num_of_threads - 1) * chunk_size, n, q);
     pool[num_of_threads - 1] = thread(thread_q_extend, input);
 
     barrier();
 
-    double max_length = 0;
+    double total_min = n;
     for (auto l : res)
-        max_length = max_length > l ? max_length : l;
-    return max_length;
+        total_min = total_min < l ? total_min : l;
+    return total_min/2;
 }
 
 void Multi_invarients::barrier() {
@@ -188,7 +239,6 @@ vector<size_t> Multi_invarients::combi_element(size_t pos, size_t q, size_t n) {
         combi[i] = pos % n;
         pos /= n;
     }
-
 }
 
 // bool end(tup &t, size_t q) {
@@ -241,15 +291,15 @@ double Single_invarients::q_packing(Nparray dists, size_t n, size_t q) {
         q_tup[i] = i;
     }
     Permutations perms(n, q, q_tup, 0);
-    double min_max_radius = 0;
+    double min_max_radius = n;
     double radius = 0;
     while (!perms.end()) {
         // print_tup(q_tup);
         radius = max_radius(dists, q_tup, n);
-        min_max_radius = radius > min_max_radius ? radius : min_max_radius;
+        min_max_radius = radius > min_max_radius ? min_max_radius : radius;
         q_tup = perms.next();
     }
-    return min_max_radius;
+    return min_max_radius/2;
 }
 
 double max_radius(Nparray dists, tup &t, size_t n) {

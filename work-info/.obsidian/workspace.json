@@ -18,19 +18,8 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "22eede5b8cdf723d",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.3.7"
-              }
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -157,7 +146,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "22eede5b8cdf723d",
+  "active": "99b025a54a75d3c2",
   "lastOpenFiles": [
     "q-extent.md",
     "Haantjes curvature.md",

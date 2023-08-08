@@ -60,6 +60,20 @@ def q_packing_single(dists: np.array, q: int):
     q_packing_single.restype = ctypes.c_double
     return q_packing_single(dists, n, q)
 
+def q_packing_multi(dists: np.array, q: int):
+    n = len(dists)
+    p = os.path.dirname(__file__) + "/libinvarientscpp.so"
+    c_lib = ctypes.CDLL(p)
+    q_packing_multi = c_lib.q_packing_multi
+    q_packing_multi.argtypes = [
+        ndpointer(ctypes.c_double, flags="C_CONTIGUOUS"),
+        ctypes.c_size_t,
+        ctypes.c_size_t,
+    ]
+    q_packing_multi.restype = ctypes.c_double
+    return q_packing_multi(dists, n, q)
+
+
 
 def test():
     p = os.path.dirname(__file__) + "/libinvarientscpp.so"

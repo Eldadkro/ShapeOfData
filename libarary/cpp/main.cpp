@@ -9,8 +9,6 @@ void pv(vector<size_t> v) {
     cout << ")" << endl;
 }
 
-
-
 void test_perms() {
     cout << "prems: \n";
     size_t n = 4, q = 3;
@@ -48,40 +46,57 @@ void test_combs() {
     pv(curp);
 }
 
-// TODO not ready
-vector<size_t> Multi_invarients::combi_element(size_t pos, size_t q, size_t n) {
-    vector<size_t> combi(q);
-    for (size_t i = 0; i < q-1; ++i) {
-        
-    }
-}
+// // TODO not ready
+// vector<size_t> Multi_invarients::combi_element(size_t pos, size_t q, size_t n) {
+//     vector<size_t> combi(q);
+//     vector<size_t> calculations(q);
+
+//     // pre-calculating all the possible chooses
+//     for (size_t i = 0; i < q; ++i) {
+//         calculations[i] = Combi::comb(n - (i + 1), q - (i + 1));
+//     }
+
+//     for (size_t i = 0; i < q; ++i) {
+
+//     }
+// }
 
 int main() {
     size_t n = 4;
     size_t q = 3;
     vector<double> dists(static_cast<size_t>(n * n));
-    cout << Combi::comb(n,q) << endl;
+    cout << Combi::comb(n, q) << endl;
 
-    // // auto p_dists = dists.data();
-    // for (size_t i = 0; i < n-1; ++i) {
-    //     dists[i*n + i+1] = 1;
-    //     dists[(i+1)*n + i] = 1;
-    // }
-    // cout << endl;
+    // auto p_dists = dists.data();
+    for (size_t i = 0; i < n - 1; ++i) {
+        dists[i * n + i + 1] = 1;
+        dists[(i + 1) * n + i] = 1;
+    }
+    cout << endl;
 
-    // print_dists(dists.data(),n);
-    // Single_invarients a;
+    print_dists(dists.data(), n);
+    Single_invarients a;
 
-    // cout << "enter single" << endl;
-    // double res_single = a.q_extend(dists.data(), n,q);
-    // cout << "end" << endl;
-    // cout << res_single << endl;
+    cout << "enter single" << endl;
+    double res_single = a.q_extend(dists.data(), n, q);
+    cout << "end" << endl;
+    cout << res_single << endl;
 
-    // Multi_invarients b;
-    // cout << "enter multi" << endl;
-    // double res_multi = b.q_extend(dists.data(), n, q);
-    // cout << "end" << endl;
-    // cout << res_multi << endl;
+    Multi_invarients b;
+    cout << "enter multi" << endl;
+    double res_multi = b.q_extend(dists.data(), n, q);
+    cout << "end" << endl;
+    cout << res_multi << endl;
+
+    cout << "enter single q-packing" << endl;
+    double res_single_packing = a.q_packing(dists.data(), n, q);
+    cout << "end" << endl;
+    cout << res_single_packing << endl;
+
+    cout << "enter multi q-packing" << endl;
+    double res_multi_packing = b.q_packing(dists.data(), n, q);
+    cout << "end" << endl;
+    cout << res_multi_packing << endl;
 
     // // test_perms_with_rep();
     // // test_perms();
