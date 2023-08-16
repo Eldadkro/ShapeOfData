@@ -40,7 +40,7 @@ def convert_block_to_weighted_graph(block:np.array) -> np.array:
     """takes a block of usually 11x11 pixels and creates a weighted graph with weightes>=0 and return the
     assosiation matrix"""
     m,n = block.shape
-    weight_matrix = np.zeros((block.shape[0]*block.shape[1], block.shape[0]*block.shape[1]))
+    weight_matrix = np.zeros((block.shape[0]*block.shape[1], block.shape[0]*block.shape[1]), dtype="double")
     #horizontal 
     for y in range(0,m):
         for x in range(0,n-1):
