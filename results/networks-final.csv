@@ -1,0 +1,6 @@
+,networks-final/ENZYMES_g296.edges,networks-final/bio-SC-TS.edges,networks-final/bn-mouse_brain_1.edges,networks-final/mammalia-dolphin-florida-overall.edges,networks-final/econ-mbeause.mtx
+q_ext3_multi,0.0034193548387096775,4.9522111622839596e-06,8.858180529719195e-05,0.000130347197535253,5.70218179374389e-06
+q_ext4_multi,0.005419354838709678,7.42831674342594e-06,0.00013287270794578793,0.00020144566891811826,8.553272816878463e-06
+excess,62.0,19.0,3.0,11.0,1.199999684
+q_packing3_multi,0.75,0.25,0.5,1.25,0.074999973
+q_packing4_multi,2.25,0.25,0.5,1.25,0.074999973

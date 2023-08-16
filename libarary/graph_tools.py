@@ -36,4 +36,26 @@ def convert_dist_dict_to_narray(dists_dict:dict, nodes:list) -> np.array:
             dists_matrix[nodes_indecies[source]][nodes_indecies[target]] = weight
     return dists_matrix
 
+def convert_block_to_weighted_graph(block:np.array) -> np.array:
+    """takes a block of usually 11x11 pixels and creates a weighted graph with weightes>=0 and return the
+    assosiation matrix"""
+    m,n = block.shape
+    weight_matrix = np.zeros((block.shape[0]*block.shape[1], block.shape[0]*block.shape[1]))
+    #horizontal 
+    for y in range(0,m):
+        for x in range(0,n-1):
+            index = y*m + x
+            edge_weight = abs(block[y,x] - block[y,x+1])
+            weight_matrix[index, index + 1] = edge_weight
+            weight_matrix[index + 1, index] = edge_weight
+
+    #vectical 
+    for y in range(0,m-1):
+        for x in range(0,n):
+            i1 = y*m + x
+            i2 = (y+1)*m + x
+            edge_weight = abs(block[y,x] - block[y+1,x])
+            weight_matrix[i1,i2] = edge_weight
+            weight_matrix[i2,i1] = edge_weight
+    return weight_matrix
 
