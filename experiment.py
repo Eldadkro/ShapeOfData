@@ -50,6 +50,15 @@ def test(G: nx.Graph):
     return res
 
 
+def convert_res(res:dict) ->dict : 
+    new_res = {}
+    new_res["q-extend3"] = res["q_ext3_multi"]
+    new_res["q-extend4"] = res["q_ext4_multi"]
+    new_res["excess"] = res["excess"]
+    new_res["q-packing3"] = res["q_packing3_multi"]
+    new_res["q-packing4"] = res["q_packing4_multi"]
+    return new_res
+
 def block_exp(block: np.array):
     """gets a block and runs the convert the block to a usable graph and runs the expemenint
     on it"""
@@ -64,12 +73,16 @@ def img_exp(img: np.array, block_size=11) -> dict:
     m, n = img.shape
     print(m, n)
     res = defaultdict(lambda: [])
+    i=0
     for y in range(0, m - block_size, block_size):
         for x in range(0, n - block_size, block_size):
             block = img[y : y + block_size, x : x + block_size]
             block_res = block_exp(block)
             for key in block_res.keys():
                 res[key].append(res[key])
-            if len(res) % 10 == 0:
-                print(len(res))
-    return res
+            i += 1
+            if i % 10 == 0:
+                print(i)
+            
+    return convert_res(res)
+

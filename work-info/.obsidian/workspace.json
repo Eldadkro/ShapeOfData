@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "q-th packing radius.md",
+                "file": "q-extent.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "q-th packing radius.md",
+                "file": "q-extent.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "q-th packing radius.md",
+                "file": "q-extent.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "q-th packing radius.md"
+                "file": "q-extent.md"
               }
             }
           }
@@ -148,9 +148,9 @@
   },
   "active": "99b025a54a75d3c2",
   "lastOpenFiles": [
+    "q-th packing radius.md",
     "q-extent.md",
     "Haantjes curvature.md",
-    "q-th packing radius.md",
     "excess.md",
     "diameter of a graph.md",
     "distance.md",
