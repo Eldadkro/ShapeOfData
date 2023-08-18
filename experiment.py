@@ -79,7 +79,7 @@ def img_exp(img: np.array, block_size=11) -> dict:
             block = img[y : y + block_size, x : x + block_size]
             block_res = block_exp(block)
             for key in block_res.keys():
-                res[key].append(res[key])
+                res[key].append(block_res[key])
             i += 1
             if i % 10 == 0:
                 print(i)
