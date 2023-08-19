@@ -7,5 +7,5 @@ libarary/cpp/exe
 libarary/cpp/main
 libarary/cpp/main.o
 libarary/cpp/*.o
-
+*.zip
 libarary/cpp/libinvarientscpp.so
